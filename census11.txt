@@ -1,0 +1,70 @@
+drop table census_2011
+
+create table census_2011(
+district varchar(50),
+state varchar(50),
+growth numeric,
+sex_ratio numeric,
+literacy numeric);
+
+select * from census_2011
+
+--//* Counting all rows *//
+
+SELECT COUNT(*) FROM census_2011 AS Row_Count
+
+--//*    dataset for jharkhand and bihar* //
+
+SELECT * FROM census_2011 WHERE state in ('Jharkhand', 'Bihar')
+
+--//*  Average Growth *//
+
+SELECT avg(growth)*100 AS AVG_Growth from census_2011
+
+--//*  AVG Growth state wise *//
+
+SELECT state, AVG(growth)*100 as AVG_Growth from census_2011 GROUP BY state
+
+--//* TOP Three growth rate  having highest growth rate*//
+
+SELECT  state, (AVG(growth)*100) as AVG_Growth from census_2011 GROUP BY state  order by AVG_Growth DESC offset(0) limit 3;
+
+--//* TOP Three growth rate having lowest growth rate *//
+
+SELECT  state, (AVG(growth)*100) as AVG_Growth from census_2011 GROUP BY state  order by AVG_Growth  offset(0) limit 3;
+
+
+
+ 
+
+--//* AVG SEX_RATIO *//
+
+
+SELECT state, round(AVG(sex_ratio),0)  AVG_sex_ratio from census_2011 GROUP BY state ORDER BY AVG_sex_ratio desc;
+
+--//* top 3 highest sex_ratio *//
+
+SELECT state, round(AVG(sex_ratio),0)  AVG_sex_ratio from census_2011 GROUP BY state ORDER BY AVG_sex_ratio desc offset (0) LIMIT 3;
+
+--//* top 3 Lowest sex_ratio *//
+
+SELECT state, round(AVG(sex_ratio),0)  AVG_sex_ratio from census_2011 GROUP BY state ORDER BY AVG_sex_ratio  offset (0) LIMIT 3;
+
+
+
+
+--//* AVG Literacy rate *//
+
+SELECT state, round(AVG(literacy),0)  AVG_literacy from census_2011 GROUP BY state ORDER BY AVG_literacy desc;
+
+--//* Top three state having highest literacy rate *//
+
+SELECT state, round(AVG(literacy),0)  AVG_literacy from census_2011 GROUP BY state ORDER BY AVG_literacy desc offset (0) limit 3;
+
+--//* Top three state having lowest literacy rate *//
+
+SELECT state, round(AVG(literacy),0)  AVG_literacy from census_2011 GROUP BY state ORDER BY AVG_literacy  offset (0) limit 3;
+
+--//* find state name who have literacy rate above 85 *//
+
+SELECT state , round(AVG(literacy),0) AVG_literacy from census_2011 GROUP BY state HAVING round(AVG(literacy),0) > 85 ORDER BY AVG_literacy DESC;
